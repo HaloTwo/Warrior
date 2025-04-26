@@ -21,22 +21,13 @@ class WARRIOR_API UWarriorCharacterAnimInstance : public UWarriorBaseAnimInstanc
 	GENERATED_BODY() // 언리얼 엔진 리플렉션 시스템을 위한 매크로
 
 public:
-	/**
-	 * 애니메이션 초기화 함수
-	 *
-	 * 애니메이션 인스턴스가 생성될 때 호출되며, 필요한 초기 설정을 수행합니다.
-	 * UAnimInstance 클래스의 동일한 함수를 오버라이드합니다.
-	 */
+
+	 //애니메이션 인스턴스가 생성될 때 호출되며, 필요한 초기 설정을 수행합니다.
+	 //UAnimInstance 클래스의 동일한 함수를 오버라이드합니다.
 	virtual void NativeInitializeAnimation() override;
 
-	/**
-	 * 스레드 안전한 애니메이션 업데이트 함수
-	 *
-	 * 매 프레임마다 호출되어 애니메이션 상태를 업데이트합니다.
-	 * 이 함수는 별도의 스레드에서 안전하게 실행될 수 있도록 설계되어야 합니다.
-	 *
-	 * @param DeltaSeconds - 마지막 프레임 이후 경과된 시간(초)
-	 */
+	 //매 프레임마다 호출되어 애니메이션 상태를 업데이트합니다.
+	 //이 함수는 별도의 스레드에서 안전하게 실행될 수 있도록 설계되어야 합니다.
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds);
 
 protected:
