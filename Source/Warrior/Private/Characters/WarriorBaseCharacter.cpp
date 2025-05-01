@@ -30,6 +30,8 @@ void AWarriorBaseCharacter::PossessedBy(AController* NewController)
 	if (WarriorAbilitySystemComponent)
 	{
 		WarriorAbilitySystemComponent->InitAbilityActorInfo(this, this);
+
+		ensureMsgf(!CharacterStartUpData.IsNull(), TEXT("잊었다 스타트 데이터를 %s"), *GetName());
 	}
 }
 
