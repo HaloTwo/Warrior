@@ -44,14 +44,29 @@ void AWarriorHeroCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (!CharacterStartUpData.IsNull())
+	// 캐릭터 스타트업 데이터가 설정되어 있는지 확인
+	if (CharacterStartUpData.IsNull())
 	{
-		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
-		{
-			LoadedData->GiveToAbilityStstemComponent(WarriorAbilitySystemComponent);
-		}
+		UE_LOG(LogTemp, Warning, TEXT("CharacterStartUpData is null. Please check if it is set."));
+		return;
+	}
+
+	// 데이터 에셋을 동기적으로 로드
+	if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
+	{
+		UE_LOG(LogTemp, Log, TEXT("Successfully loaded CharacterStartUpData: %s"), *LoadedData->GetName());
+
+		// AbilitySystemComponent에 스타트 능력 부여
+		LoadedData->GiveToAbilityStstemComponent(WarriorAbilitySystemComponent);
+	}
+	else
+	{
+		// 에셋 로딩 실패
+		UE_LOG(LogTemp, Error, TEXT("Failed to load CharacterStartUpData asset."));
 	}
 }
+
+
 
 void AWarriorHeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
