@@ -31,6 +31,9 @@ public:
 	 */
 	template<class UserObject, typename CallbackFunc>
 	void BindNativeInputAction(const UDataAsset_inputConfig* InInputConfig, const FGameplayTag& InInputTag, ETriggerEvent TriggerEvent, UserObject* ContextObject, CallbackFunc Func);
+
+	template<class UserObject, typename CallbackFunc>
+	void BindAbilityInputAction(const UDataAsset_inputConfig* InInputConfig, UserObject* ContextObject, CallbackFunc InputPressedFunc, CallbackFunc InputRelasedFunc);
 };
 
 /**
@@ -49,5 +52,20 @@ inline void UWarriorInputComponent::BindNativeInputAction(const UDataAsset_input
 	{
 		// 찾은 입력 액션을 지정된 트리거 이벤트, 컨텍스트 객체, 콜백 함수와 함께 바인딩
 		BindAction(FoundAction, TriggerEvent, ContextObject, Func);
+	}
+}
+
+template<class UserObject, typename CallbackFunc>
+inline void UWarriorInputComponent::BindAbilityInputAction(const UDataAsset_inputConfig* InInputConfig, UserObject* ContextObject, CallbackFunc InputPressedFunc, CallbackFunc InputRelasedFunc)
+{
+	// 입력 설정 애셋이 유효한지 확인하고, 그렇지 않으면 오류 메시지와 함께 실행 중단
+	checkf(InInputConfig, TEXT("Input config data asset is null, can not proceed with binding"));
+
+	for (const auto& AbilityInputActionConfig : InInputConfig->AbilityInputActions)
+	{
+		if (!AbilityInputActionConfig.IsVaild()) continue;
+
+		BindAction(AbilityInputActionConfig.InputAction, ETriggerEvent::Started, ContextObject, InputPressedFunc, AbilityInputActionConfig.InputTag);
+		BindAction(AbilityInputActionConfig.InputAction, ETriggerEvent::Completed, ContextObject, InputRelasedFunc, AbilityInputActionConfig.InputTag);
 	}
 }
