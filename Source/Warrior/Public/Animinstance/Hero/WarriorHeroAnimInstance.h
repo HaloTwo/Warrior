@@ -6,7 +6,7 @@
 #include "Animinstance/WarriorCharacterAnimInstance.h"
 #include "WarriorHeroAnimInstance.generated.h"
 
-class AWarriorBaseCharacter;
+class AWarriorHeroCharacter;
 
 UCLASS()
 class WARRIOR_API UWarriorHeroAnimInstance : public UWarriorCharacterAnimInstance
@@ -20,7 +20,7 @@ public:
 
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Refrences")
-	AWarriorBaseCharacter* OwningHeroCharacter;
+	AWarriorHeroCharacter* OwningHeroCharacter;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocaomotionData")
 	bool bShouldEnterRelaxState;
