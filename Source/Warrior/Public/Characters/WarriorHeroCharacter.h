@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Characters/WarriorBaseCharacter.h"
+#include "GameplayTagContainer.h"
 #include "WarriorHeroCharacter.generated.h"
 
 class USpringArmComponent;
@@ -12,13 +13,13 @@ class UDataAsset_inputConfig;
 struct FInputActionValue;
 class UHeroCombatComponent;
 /**
- * 
+ *
  */
 UCLASS()
 class WARRIOR_API AWarriorHeroCharacter : public AWarriorBaseCharacter
 {
 	GENERATED_BODY()
-	
+
 public:
 	AWarriorHeroCharacter();
 
@@ -49,6 +50,9 @@ private:
 
 	void Input_Move(const FInputActionValue& InputActionValue);
 	void Input_Look(const FInputActionValue& InputActionValue);
+
+	void Input_AbilityInputPressed(FGameplayTag InputTag);
+	void Input_AbilityInputReleased(FGameplayTag InputTag);
 #pragma endregion
 
 public:
