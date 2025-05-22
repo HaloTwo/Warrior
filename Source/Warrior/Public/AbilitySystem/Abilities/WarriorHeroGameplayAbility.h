@@ -9,13 +9,13 @@
 class AWarriorHeroCharacter;
 class AWarriorHeroController;
 /**
- * 
+ *
  */
 UCLASS()
 class WARRIOR_API UWarriorHeroGameplayAbility : public UWarriorGameplayAbility
 {
 	GENERATED_BODY()
-	
+
 public:
 	UFUNCTION(BlueprintPure, Category = "Warrior|Ability")
 	AWarriorHeroCharacter* GetHeroCharacterFromActorInfo();

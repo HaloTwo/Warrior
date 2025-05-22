@@ -1,6 +1,5 @@
 // Vince Petrelli All Rights Reserved
 
-
 #include "Animinstance/Hero/WarriorHeroAnimInstance.h"
 #include "Characters/WarriorHeroCharacter.h"
 
@@ -10,9 +9,8 @@ void UWarriorHeroAnimInstance::NativeInitializeAnimation()
 
 	if (OwningCharacter)
 	{
-		OwningCharacter = Cast<AWarriorHeroCharacter>(OwningCharacter);
+		OwningHeroCharacter = Cast<AWarriorHeroCharacter>(OwningCharacter);
 	}
-
 }
 
 void UWarriorHeroAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
@@ -24,7 +22,7 @@ void UWarriorHeroAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSecond
 		IdleElpasedTime = 0.f;
 		bShouldEnterRelaxState = false;
 	}
-	else 
+	else
 	{
 		IdleElpasedTime += DeltaSeconds;
 		bShouldEnterRelaxState = (IdleElpasedTime >= EnterRelaxStateThreshold);
