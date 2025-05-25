@@ -5,10 +5,6 @@
 #include "AbilitySystem//Abilities//WarriorGameplayAbility.h"
 #include "AbilitySystem/WarriorAbilitySystemComponent.h"
 
-bool FWarriorHeroAbilitySet::isValid() const
-{
-    return InputTag.IsValid() && AbilityToGrant;
-}
 
 void UDataAsset_HeroStartUpData::GiveToAbilityStstemComponent(UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
 {
