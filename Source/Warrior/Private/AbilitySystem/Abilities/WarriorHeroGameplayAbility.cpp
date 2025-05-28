@@ -29,5 +29,8 @@ UHeroCombatComponent* UWarriorHeroGameplayAbility::GetHeroCombatComponentFromAct
 {
 	AWarriorHeroCharacter* character = GetHeroCharacterFromActorInfo();
 
+
+	
+
 	return character ? character->GetHeroCombatComponent() : nullptr;
 }
