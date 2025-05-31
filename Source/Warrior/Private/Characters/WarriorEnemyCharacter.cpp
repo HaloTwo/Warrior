@@ -6,6 +6,7 @@
 #include "Components/Combat/EnemyCombatComponent.h"
 #include "Engine/AssetManager.h"
 #include "DataAssets/StartUpData/DataAsset_EnemyStartUpData.h"
+
 #include "WarriorDebugHelper.h"
 
 AWarriorEnemyCharacter::AWarriorEnemyCharacter()

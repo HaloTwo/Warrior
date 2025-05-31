@@ -26,4 +26,7 @@ namespace WarriorGameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_JumpFinisher, "Player.Status.JumpFinisher");
 	
+
+	//Enemy Tags
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Weapon, "Enemy.Weapon");
 }
