@@ -15,6 +15,27 @@ void UDataAsset_StartUpDataBase::GiveToAbilityStstemComponent(UWarriorAbilitySys
 
 	// 반응형 능력 (ex. 피해 입었을 때 자동 발동 등) 부여
 	GrantAbilities(ReactiveAbilities, InASCToGive, ApplyLevel);
+
+	// 시작 시 적용할 게임플레이 이펙트들 (버프/초기 스탯 설정 등) 처리
+	if (!StartUpGameplayEffects.IsEmpty())
+	{
+		// 각 이펙트를 순회하며 적용
+		for (const TSubclassOf<UGameplayEffect>& EffectClass : StartUpGameplayEffects)
+		{
+			// 유효하지 않은 이펙트 클래스는 스킵
+			if (!EffectClass) continue;
+
+			// 이펙트의 기본 객체 가져오기
+			UGameplayEffect* EffectCD0 = EffectClass->GetDefaultObject<UGameplayEffect>();
+
+			// ASC에 이펙트 적용 (레벨과 컨텍스트 포함)
+			InASCToGive->ApplyGameplayEffectToSelf(
+				EffectCD0,
+				ApplyLevel,
+				InASCToGive->MakeEffectContext()
+			);
+		}
+	}
 }
 
 
