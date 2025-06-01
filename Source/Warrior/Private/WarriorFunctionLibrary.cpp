@@ -3,6 +3,7 @@
 #include "WarriorFunctionLibrary.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/WarriorAbilitySystemComponent.h"
+#include "Interfaces/PawnCombatInterface.h"
 
 // 액터에서 WarriorAbilitySystemComponent를 가져오는 함수
 UWarriorAbilitySystemComponent* UWarriorFunctionLibrary::NativeGetWarriorASCFromActor(AActor* InActor)
@@ -50,4 +51,26 @@ void UWarriorFunctionLibrary::BP_DoesActorHaveTag(AActor* InActor, FGameplayTag 
 {
 	// 태그가 있으면 Yes, 없으면 No로 enum 설정 (블루프린트에서 분기하기 쉽게)
 	OutConfirmType = NativeDoesActorHaveTag(InActor, TagToCheck) ? EWarriorConfirmType::Yes : EWarriorConfirmType::No;
+}
+
+
+UPawnCombatComponent* UWarriorFunctionLibrary::NativeGetPawnCombatComponentFromActor(AActor* InActor)
+{
+	check(InActor);
+
+	if (IPawnCombatInterface* PawnCombatInterface = Cast<IPawnCombatInterface>(InActor))
+	{
+		return PawnCombatInterface->GetPawnCombatComponent();
+	}
+
+	return nullptr;
+}
+
+UPawnCombatComponent* UWarriorFunctionLibrary::BP_GetPawnCombatComponentFromActor(AActor* InActor, EWarriorValidType& OutValidType)
+{
+	UPawnCombatComponent* CombatComponent = NativeGetPawnCombatComponentFromActor(InActor);
+
+	OutValidType = CombatComponent ? EWarriorValidType::Valid : EWarriorValidType::Invalid;
+
+	return CombatComponent;
 }

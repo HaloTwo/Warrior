@@ -25,6 +25,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	UEnemyCombatComponent* EnemyCombatComponent;
 
+	// ~ Begin PawnCombatInterface InterFace
+	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
+	// ~ End PawnCombatInterface InterFace
+
 private:
 	void InitEnemyStartUpData();
 
