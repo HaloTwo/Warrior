@@ -1,6 +1,8 @@
 #include "Components/Combat/PawnCombatComponent.h"
-#include "WarriorDebugHelper.h"
+#include "Components/BoxComponent.h"
 #include "Items/Weapons/WarriorWeaponBase.h"
+
+#include "WarriorDebugHelper.h"
 
 /// 생성된 무기를 태그와 함께 등록하고 선택적으로 장착 상태로 설정
 void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AWarriorWeaponBase* InWeaponToRegister, bool bResgiterAsEquippedWeapon)
@@ -46,4 +48,43 @@ AWarriorWeaponBase* UPawnCombatComponent::GetCharacterCurrentEquippedWeapon() co
 
 	// 장착 태그로 실제 무기 객체 검색 후 반환
 	return GetCharacterCarriedWeaponByTag(CurrentEquippedWeaponTag);
+}
+
+void UPawnCombatComponent::ToggleWeaponCollsion(bool bShouldEnable, EToggleDamageType ToggleDamageType)
+{
+
+	if (ToggleDamageType == EToggleDamageType::CurrentEquippedWeapon)
+	{
+		AWarriorWeaponBase* WeaponToToggle = GetCharacterCurrentEquippedWeapon();
+		
+		check(WeaponToToggle);
+
+		if (bShouldEnable)
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+			Debug::Print(WeaponToToggle->GetName() + TEXT(" collision enabled"), FColor::Green);
+		}
+		else 
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			Debug::Print(WeaponToToggle->GetName() + TEXT(" collision disabled"), FColor::Red);
+		}	
+	}
+
+	//if (AWarriorWeaponBase* EquippedWeapon = GetCharacterCurrentEquippedWeapon())
+	//{
+	//	switch (ToggleDamageType)
+	//	{
+	//	case EToggleDamageType::CurrentEquippedWeapon:
+	//		AWarriorWeaponBase* WeaponToToggle = GetCharacterCurrentEquippedWeapon();
+	//		break;
+
+	//	case EToggleDamageType::RightHand:
+	//		EquippedWeapon->SetDamageEnabled(bShouldEnable);
+	//		break;
+
+	//	default:
+	//		break;
+	//	}
+	//}
 }
