@@ -69,6 +69,7 @@ void UPawnCombatComponent::ToggleWeaponCollsion(bool bShouldEnable, EToggleDamag
 		else 
 		{
 			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			OverlappedActors.Empty(); // 충돌 비활성화 시 오버랩된 액터 목록 초기화
 		}	
 	}
 
