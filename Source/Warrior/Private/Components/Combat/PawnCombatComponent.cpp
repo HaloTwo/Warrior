@@ -16,6 +16,9 @@ void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegis
 	// 무기를 맵에 추가
 	CharacterCarriedWeaponMap.Emplace(InWeaponTagToRegister, InWeaponToRegister);
 
+	InWeaponToRegister->OnWeaponHitTarget.BindUObject(this, &ThisClass::OnHitTargetActor);
+	InWeaponToRegister->OnWeaponPulledFromTarget.BindUObject(this, &ThisClass::OnWeaponPulledFromTargetActor);
+
 	// 장착 옵션이 true면 현재 장착 무기로 설정
 	if (bResgiterAsEquippedWeapon) CurrentEquippedWeaponTag = InWeaponTagToRegister;
 
@@ -85,4 +88,12 @@ void UPawnCombatComponent::ToggleWeaponCollsion(bool bShouldEnable, EToggleDamag
 	//		break;
 	//	}
 	//}
+}
+
+void UPawnCombatComponent::OnHitTargetActor(AActor* HitActor)
+{
+}
+
+void UPawnCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
+{
 }
