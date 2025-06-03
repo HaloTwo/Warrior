@@ -48,3 +48,56 @@ UGEExecCalc_DamageTaken::UGEExecCalc_DamageTaken()
     // 매크로를 사용한 빠른 방법으로 방어력 캡처 정의 추가
     RelevantAttributesToCapture.Add(GetWarriorDamageCapture().DefensePowerDef);
 }
+
+// GAS 데미지 계산의 핵심 실행 함수
+void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
+{
+    // 현재 적용되는 GameplayEffect의 정보를 가져옴
+    const FGameplayEffectSpec& EffectSpec = ExecutionParams.GetOwningSpec();
+
+    /*컨텍스트에서 가져올 수 있는 추가 정보들 (현재 미사용)
+    EffectSpec.GetContext().GetSourceObject();    // 효과를 발생시킨 오브젝트
+    EffectSpec.GetContext().GetAbility();         // 효과를 발생시킨 어빌리티
+    EffectSpec.GetContext().GetInstigator();      // 효과를 시작한 액터
+    EffectSpec.GetContext().GetEffectCauser();*/  // 효과를 직접 일으킨 액터
+
+    // 어트리뷰트 평가를 위한 파라미터 설정
+    FAggregatorEvaluateParameters EvaluateParameters;
+    // Source(공격자)의 태그들을 평가 파라미터에 설정
+    EvaluateParameters.SourceTags = EffectSpec.CapturedSourceTags.GetAggregatedTags();
+    // Target(피격자)의 태그들을 평가 파라미터에 설정
+    EvaluateParameters.TargetTags = EffectSpec.CapturedTargetTags.GetAggregatedTags();
+
+    // 공격자의 공격력을 캡처해서 가져오기
+    float SourceAttackPower = 0.f;
+    ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetWarriorDamageCapture().AttackPowerDef, EvaluateParameters, SourceAttackPower);
+
+    // SetByCaller로 전달받을 데미지 관련 값들 초기화
+    float BaseDamage = 0.f;                    // 기본 데미지
+    int32 UsedLightAttckComboCount = 0;        // 라이트 공격 콤보 카운트
+    int32 UsedHeavyAttackComboCount = 0;       // 헤비 공격 콤보 카운트
+
+    // SetByCaller로 전달된 태그-값 쌍들을 순회하며 데이터 추출
+    for (const TPair<FGameplayTag, float>& TagMagnitude : EffectSpec.SetByCallerTagMagnitudes)
+    {
+        // 기본 데미지 태그인지 확인하고 값 저장
+        if (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags::Shared_SetByCaller_BaseDamage))
+        {
+            BaseDamage = TagMagnitude.Value;
+        }
+        // 라이트 공격 타입 태그인지 확인하고 콤보 카운트 저장
+        if (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags::Player_SetByCaller_AttackType_Light))
+        {
+            UsedLightAttckComboCount = TagMagnitude.Value;
+        }
+        // 헤비 공격 타입 태그인지 확인하고 콤보 카운트 저장
+        if (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags::Player_SetByCaller_AttackType_Heavy))
+        {
+            UsedHeavyAttackComboCount = TagMagnitude.Value;
+        }
+    }
+
+    // 피격자의 방어력을 캡처해서 가져오기
+    float TargetDefensePower = 0.f;
+    ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetWarriorDamageCapture().DefensePowerDef, EvaluateParameters, TargetDefensePower);
+}
