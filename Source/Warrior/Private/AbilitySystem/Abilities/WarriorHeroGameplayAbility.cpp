@@ -3,7 +3,9 @@
 
 #include "AbilitySystem/Abilities/WarriorHeroGameplayAbility.h"
 #include "Characters/WarriorHeroCharacter.h"
-#include "Controllers/WarriorHeroController.h"  // 이 헤더 파일이 필요합니다
+#include "Controllers/WarriorHeroController.h"  
+#include "AbilitySystem/WarriorAbilitySystemComponent.h"
+#include "WarriorGameplayTags.h"
 
 AWarriorHeroCharacter* UWarriorHeroGameplayAbility::GetHeroCharacterFromActorInfo()
 {
@@ -33,4 +35,34 @@ UHeroCombatComponent* UWarriorHeroGameplayAbility::GetHeroCombatComponentFromAct
 	
 
 	return character ? character->GetHeroCombatComponent() : nullptr;
+}
+
+FGameplayEffectSpecHandle UWarriorHeroGameplayAbility::MakeHeroDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InWeaponBaseDamage, FGameplayTag InCurrentAttackTypeTag, int32 InCurrentComboCount)
+{
+	check(EffectClass);
+
+	FGameplayEffectContextHandle ContextHandle = GetWarriorAbilitySystemComponentFromActorInfo()->MakeEffectContext();
+	ContextHandle.SetAbility(this);
+	ContextHandle.AddSourceObject(GetAvatarActorFromActorInfo());
+	ContextHandle.AddInstigator(GetAvatarActorFromActorInfo(), GetAvatarActorFromActorInfo());
+
+	FGameplayEffectSpecHandle EffectspecHandle = GetWarriorAbilitySystemComponentFromActorInfo()->MakeOutgoingSpec
+	(
+		EffectClass, 
+		GetAbilityLevel(), 
+		ContextHandle
+	);
+
+	EffectspecHandle.Data->SetSetByCallerMagnitude(
+		WarriorGameplayTags::Shared_SetByCaller_BaseDamage, 
+		InWeaponBaseDamage
+	);
+
+	if (InCurrentAttackTypeTag.IsValid())
+	{
+		EffectspecHandle.Data->SetSetByCallerMagnitude(InCurrentAttackTypeTag, InCurrentComboCount);
+	}
+
+
+	return EffectspecHandle;
 }

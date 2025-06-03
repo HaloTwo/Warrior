@@ -4,7 +4,7 @@
 
 #include "NativeGameplayTags.h"
 
-namespace WarriorGameplayTags 
+namespace WarriorGameplayTags
 {
 	//Input Tags
 	WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move);
@@ -33,5 +33,6 @@ namespace WarriorGameplayTags
 
 	//Shared Tags
 	WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_MeleeHit);
+	WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_SetByCaller_BaseDamage);
 }
 
