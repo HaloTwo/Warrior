@@ -14,6 +14,7 @@ struct FWarriorDamageCapture
 
 	DECLARE_ATTRIBUTE_CAPTUREDEF(DamageTaken)
 
+
 	// 생성자에서 캡처 정의들을 초기화
 	FWarriorDamageCapture()
 	{
@@ -53,6 +54,8 @@ UGEExecCalc_DamageTaken::UGEExecCalc_DamageTaken()
 	RelevantAttributesToCapture.Add(GetWarriorDamageCapture().AttackPowerDef);
 	// 매크로를 사용한 빠른 방법으로 방어력 캡처 정의 추가
 	RelevantAttributesToCapture.Add(GetWarriorDamageCapture().DefensePowerDef);
+
+	RelevantAttributesToCapture.Add(GetWarriorDamageCapture().DamageTakenDef);
 }
 
 // GAS 데미지 계산의 핵심 실행 함수
@@ -77,7 +80,7 @@ void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 	// 공격자의 공격력을 캡처해서 가져오기
 	float SourceAttackPower = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetWarriorDamageCapture().AttackPowerDef, EvaluateParameters, SourceAttackPower);
-	Debug::Print(TEXT("SourceAttackPower"), SourceAttackPower);
+	//Debug::Print(TEXT("SourceAttackPower"), SourceAttackPower);
 
 	// SetByCaller로 전달받을 데미지 관련 값들 초기화
 	float BaseDamage = 0.f;                    // 기본 데미지
@@ -91,19 +94,19 @@ void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 		if (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags::Shared_SetByCaller_BaseDamage))
 		{
 			BaseDamage = TagMagnitude.Value;
-			Debug::Print(TEXT("BaseDamage"), BaseDamage);
+	/*		Debug::Print(TEXT("BaseDamage"), BaseDamage);*/
 		}
 		// 라이트 공격 타입 태그인지 확인하고 콤보 카운트 저장
 		if (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags::Player_SetByCaller_AttackType_Light))
 		{
 			UsedLightAttckComboCount = TagMagnitude.Value;
-			Debug::Print(TEXT("UsedLightAttckComboCount"), UsedLightAttckComboCount);
+			/*Debug::Print(TEXT("UsedLightAttckComboCount"), UsedLightAttckComboCount);*/
 		}
 		// 헤비 공격 타입 태그인지 확인하고 콤보 카운트 저장
 		if (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags::Player_SetByCaller_AttackType_Heavy))
 		{
 			UsedHeavyAttackComboCount = TagMagnitude.Value;
-			Debug::Print(TEXT("UsedHeavyAttackComboCount"), UsedHeavyAttackComboCount);
+			/*Debug::Print(TEXT("UsedHeavyAttackComboCount"), UsedHeavyAttackComboCount);*/
 		}
 	}
 
@@ -118,7 +121,7 @@ void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 		const float DamageIncreasePercentLight = (UsedLightAttckComboCount - 1) * 0.05 + 1.f;
 
 		BaseDamage *= DamageIncreasePercentLight;
-		Debug::Print(TEXT("ScaledBaseDamageLight"), BaseDamage);
+	/*	Debug::Print(TEXT("ScaledBaseDamageLight"), BaseDamage);*/
 	}
 
 	if (UsedHeavyAttackComboCount != 0)
@@ -126,7 +129,7 @@ void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 		const float DamageIncreasePercentHeavy = UsedHeavyAttackComboCount * 0.15f + 1.f;
 
 		BaseDamage *= DamageIncreasePercentHeavy;
-		Debug::Print(TEXT("ScaledBaseDamageHeavy"), BaseDamage);
+		//Debug::Print(TEXT("ScaledBaseDamageHeavy"), BaseDamage);
 	}
 
 	const float FinalDamageDone = BaseDamage * SourceAttackPower / TargetDefensePower;
