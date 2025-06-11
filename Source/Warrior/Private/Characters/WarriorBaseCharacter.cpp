@@ -26,6 +26,7 @@ UAbilitySystemComponent* AWarriorBaseCharacter::GetAbilitySystemComponent() cons
 UPawnCombatComponent* AWarriorBaseCharacter::GetPawnCombatComponent() const
 {
 	return nullptr;
+	//
 }
 
 UPawnUIComponent* AWarriorBaseCharacter::GetPawnUIComponent() const
