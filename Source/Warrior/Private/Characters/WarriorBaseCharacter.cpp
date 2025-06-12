@@ -32,6 +32,7 @@ UPawnCombatComponent* AWarriorBaseCharacter::GetPawnCombatComponent() const
 UPawnUIComponent* AWarriorBaseCharacter::GetPawnUIComponent() const
 {
 	return nullptr;
+	//
 }
 
 void AWarriorBaseCharacter::PossessedBy(AController* NewController)
