@@ -78,7 +78,7 @@ void UWarriorAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 		//TODO::Notify the UI 
 
 		//TODO::Handle character death
-		if (NewCurrentHealth == 0.f)
+		if (GetCurrentHealth() == 0.f)
 		{
 			UWarriorFunctionLibrary::AddGameplayTagActorIfNone(Data.Target.GetAvatarActor(), WarriorGameplayTags::Shared_Status_Dead);
 
