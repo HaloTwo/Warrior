@@ -8,6 +8,7 @@
 
 class UEnemyCombatComponent;
 class UEnemyUIComponent;
+class UWidgetComponent;
 /**
  * 
  */
@@ -31,6 +32,9 @@ public:
 
 protected:
 
+	virtual void BeginPlay() override;
+
+
 	virtual void PossessedBy(AController* NewController) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
@@ -38,6 +42,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	UEnemyCombatComponent* EnemyCombatComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+	UWidgetComponent* EnemyHealthWidgetComponent;
 
 private:
 	void InitEnemyStartUpData();
