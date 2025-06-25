@@ -33,10 +33,46 @@ AWarriorAIController::AWarriorAIController(const FObjectInitializer& ObjectIniti
 
     // 적 감지/감지 해제 시 호출될 델리게이트 바인딩
     EnemyPerceptionComponent->OnTargetPerceptionUpdated.AddUniqueDynamic(this, &ThisClass::OnEnemyPerceptionUpdated);
+
+	SetGenericTeamId(FGenericTeamId(1)); // 팀 ID 설정 (예: 1번 팀)
 }
 
+/**
+* 다른 액터에 대한 팀 태도를 결정하는 함수
+* AI 인식 시스템에서 적/아군을 구분하는 데 사용됨
+*/
+ETeamAttitude::Type AWarriorAIController::GetTeamAttitudeTowards(const AActor& Other) const
+{
+    // 대상 액터를 Pawn으로 캐스팅 (읽기 전용)
+    const APawn* PawnToCheck = Cast<const APawn>(&Other);
+
+    // 대상 Pawn의 컨트롤러에서 팀 에이전트 인터페이스를 가져옴
+    // GenericTeamAgentInterface는 팀 ID를 관리하는 인터페이스
+    const IGenericTeamAgentInterface* OtherTeamAgent = Cast<IGenericTeamAgentInterface>(PawnToCheck->GetController());
+
+    // 상대방이 팀 시스템을 사용하고 있고, 우리와 다른 팀이라면
+    if (OtherTeamAgent && OtherTeamAgent->GetGenericTeamId() != GetGenericTeamId())
+    {
+        // 적대적 관계로 판정
+        return ETeamAttitude::Hostile;
+    }
+
+    // 같은 팀이거나 팀이 없다면 우호적 관계로 판정
+    return ETeamAttitude::Friendly;
+}
+
+
+/**
+* AI 인식 시스템에서 적을 감지하거나 놓쳤을 때 호출되는 콜백 함수
+* OnTargetPerceptionUpdated 델리게이트에 바인딩되어 자동으로 실행됨
+*/
 void AWarriorAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
-
-
+    // 감지가 성공적으로 이루어졌고 유효한 액터인 경우
+    if (Stimulus.WasSuccessfullySensed() && Actor)
+    {
+        // 디버그 메시지: "액터이름 was sensed"를 녹색으로 출력
+        Debug::Print(Actor->GetActorNameOrLabel() + TEXT(" was sensed"), FColor::Green);
+    }
+    // 참고: 감지를 잃었을 경우 (!Stimulus.WasSuccessfullySensed())의 처리는 없음
 }

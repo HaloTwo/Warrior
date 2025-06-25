@@ -19,6 +19,10 @@ class WARRIOR_API AWarriorAIController : public AAIController
 public:
 	AWarriorAIController(const FObjectInitializer& ObjectInitializer);
 
+	// ~ Begin IgenericTeamAgentInterface Interface
+	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
+	// ~ End IgenericTeamAgentInterface Interface
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UAIPerceptionComponent* EnemyPerceptionComponent;
