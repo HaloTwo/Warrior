@@ -3,6 +3,8 @@
 #include "Navigation/CrowdFollowingComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
+#include "BehaviorTree/BlackboardComponent.h"
+
 #include "WarriorDebugHelper.h"
 
 AWarriorAIController::AWarriorAIController(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.SetDefaultSubobjectClass<UCrowdFollowingComponent>("PathFollowingComponent"))
@@ -71,8 +73,10 @@ void AWarriorAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus S
     // 감지가 성공적으로 이루어졌고 유효한 액터인 경우
     if (Stimulus.WasSuccessfullySensed() && Actor)
     {
-        // 디버그 메시지: "액터이름 was sensed"를 녹색으로 출력
-        Debug::Print(Actor->GetActorNameOrLabel() + TEXT(" was sensed"), FColor::Green);
+        if (UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
+        {
+            BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor);
+        }
     }
     // 참고: 감지를 잃었을 경우 (!Stimulus.WasSuccessfullySensed())의 처리는 없음
 }
