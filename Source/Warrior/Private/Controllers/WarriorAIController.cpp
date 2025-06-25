@@ -9,12 +9,6 @@
 
 AWarriorAIController::AWarriorAIController(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.SetDefaultSubobjectClass<UCrowdFollowingComponent>("PathFollowingComponent"))
 {
-    // CrowdFollowingComponent가 제대로 설정되었는지 확인 (디버그용)
-    if (UCrowdFollowingComponent* CrowdComp = Cast<UCrowdFollowingComponent>(GetPathFollowingComponent()))
-    {
-        Debug::Print(TEXT("CrowdFollowingComponent valid"), FColor::Green);
-    }
-
     // AI 시각 감지 설정 컴포넌트 생성
     AISenseConfig_Sight = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("EnemySenseConfig_Sight"));
 
@@ -61,6 +55,41 @@ ETeamAttitude::Type AWarriorAIController::GetTeamAttitudeTowards(const AActor& O
 
     // 같은 팀이거나 팀이 없다면 우호적 관계로 판정
     return ETeamAttitude::Friendly;
+}
+
+
+void AWarriorAIController::BeginPlay()
+{
+    Super::BeginPlay();
+
+    if (UCrowdFollowingComponent* CrowdComp = Cast<UCrowdFollowingComponent>(GetPathFollowingComponent()))
+    {
+		// CrowdFollowingComponent가 유효한 경우, 회피 설정을 적용
+        CrowdComp->SetCrowdSimulationState(bEnableDetourCrowdAvoidance ? ECrowdSimulationState::Enabled : ECrowdSimulationState::Disabled);
+
+		// CrowdAvoidanceQuality 값에 따라 회피 품질 설정
+        switch (DetourCrowdAvoidanceQuality)
+        {
+        case 1: CrowdComp->SetCrowdAvoidanceQuality(ECrowdAvoidanceQuality::Low);    
+            break;
+
+        case 2: CrowdComp->SetCrowdAvoidanceQuality(ECrowdAvoidanceQuality::Medium); 
+            break;
+
+        case 3: CrowdComp->SetCrowdAvoidanceQuality(ECrowdAvoidanceQuality::Good); 
+            break;
+
+        case 4: CrowdComp->SetCrowdAvoidanceQuality(ECrowdAvoidanceQuality::High);   
+            break;
+
+        default:
+            break;
+        }
+
+		CrowdComp->SetAvoidanceGroup(1); // 회피 그룹 설정 (1번 그룹)
+		CrowdComp->SetGroupsToAvoid(1); // 회피할 그룹 설정 (1번 그룹)
+		CrowdComp->SetCrowdCollisionQueryRange(CollisionQueryRange); // 충돌 쿼리 범위 설정
+    }
 }
 
 

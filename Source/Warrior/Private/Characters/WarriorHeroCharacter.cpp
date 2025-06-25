@@ -138,14 +138,16 @@ void AWarriorHeroCharacter::Input_Look(const FInputActionValue& InputActionValue
 {
 	const FVector2D LookAxisVector = InputActionValue.Get<FVector2D>();
 
+	// X축: 좌우 회전 (Yaw)
 	if (LookAxisVector.X != 0.f)
 	{
 		AddControllerYawInput(LookAxisVector.X);
 	}
 
+	// Y축: 상하 회전 (Pitch)
 	if (LookAxisVector.Y != 0.f)
 	{
-		AddControllerYawInput(LookAxisVector.Y);
+		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
 
