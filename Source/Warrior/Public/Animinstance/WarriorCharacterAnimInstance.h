@@ -39,9 +39,14 @@ protected:
 	UPROPERTY()
 	UCharacterMovementComponent* owningMovementComponent;
 
+	//캐릭터의 현재 속도를 나타내는 변수입니다.
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocaomotionData")
 	float GroundSpeed;
 
+	//캐릭터가 점프 중인지 여부를 나타내는 변수입니다.
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocaomotionData")
 	bool bHasAcceleration;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
+	float LocomotionDirection;
 };

@@ -1,6 +1,7 @@
 #include "Animinstance/WarriorCharacterAnimInstance.h"
 #include "Characters/WarriorBaseCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "KismetAnimationLibrary.h"
 
 /**
  * 애니메이션 초기화 함수
@@ -22,6 +23,7 @@ void UWarriorCharacterAnimInstance::NativeInitializeAnimation()
         // 일반적으로 이 값을 멤버 변수에 저장하거나 초기화에 사용합니다.
         owningMovementComponent = OwningCharacter->GetCharacterMovement();
     }
+
 }
 
 /**
@@ -46,4 +48,7 @@ void UWarriorCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaS
 
     GroundSpeed = OwningCharacter->GetVelocity().Size2D();
     bHasAcceleration = owningMovementComponent->GetCurrentAcceleration().SizeSquared2D() > 0.f;
+
+    // 캐릭터의 속도와 회전 정보를 기반으로 방향을 계산합니다.
+    LocomotionDirection = UKismetAnimationLibrary::CalculateDirection(OwningCharacter->GetVelocity(), OwningCharacter->GetActorRotation());
 }
