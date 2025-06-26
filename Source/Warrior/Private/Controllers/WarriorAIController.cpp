@@ -47,7 +47,7 @@ ETeamAttitude::Type AWarriorAIController::GetTeamAttitudeTowards(const AActor& O
     const IGenericTeamAgentInterface* OtherTeamAgent = Cast<IGenericTeamAgentInterface>(PawnToCheck->GetController());
 
     // 상대방이 팀 시스템을 사용하고 있고, 우리와 다른 팀이라면
-    if (OtherTeamAgent && OtherTeamAgent->GetGenericTeamId() != GetGenericTeamId())
+    if (OtherTeamAgent && OtherTeamAgent->GetGenericTeamId() < GetGenericTeamId())
     {
         // 적대적 관계로 판정
         return ETeamAttitude::Hostile;
@@ -99,12 +99,17 @@ void AWarriorAIController::BeginPlay()
 */
 void AWarriorAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
-    // 감지가 성공적으로 이루어졌고 유효한 액터인 경우
-    if (Stimulus.WasSuccessfullySensed() && Actor)
+	// 감지된 액터가 유효한지 확인
+    if (UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
     {
-        if (UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
+		// 감지된 액터가 유효하고, Blackboard에 "TargetActor" 키가 설정되어 있지 않다면
+        if (!BlackboardComponent->GetValueAsObject(FName("TargetActor")))
         {
-            BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor);
+			// 감지된 액터가 유효한 경우, Blackboard에 "TargetActor" 키를 설정
+            if (Stimulus.WasSuccessfullySensed() && Actor)
+            {
+                BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor);
+            }
         }
     }
     // 참고: 감지를 잃었을 경우 (!Stimulus.WasSuccessfullySensed())의 처리는 없음
