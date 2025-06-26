@@ -25,4 +25,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Warrior|Ability")
     // InSpecHandlesToRemove에 포함된 능력 세트에 해당하는 능력을 제거합니다.
     void RemoveGrantederoWeaponAbilities(UPARAM(ref) TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove);
+
+	// 능력을 활성화하려고 시도합니다. 성공하면 true를 반환합니다.
+	UFUNCTION(BlueprintCallable, Category = "Warrior|Ability")
+	bool TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate);
 };
