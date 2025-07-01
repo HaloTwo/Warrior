@@ -48,7 +48,19 @@ FActiveGameplayEffectHandle UWarriorGameplayAbility::NativeApplyEffectSpecHandle
 {
 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 
-	check(TargetASC && InSpecHandle.IsValid());
+	// check() 대신 안전한 검사
+	if (!TargetASC)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Target has no AbilitySystemComponent: %s"),
+			TargetActor ? *TargetActor->GetName() : TEXT("NULL"));
+		return FActiveGameplayEffectHandle();
+	}
+
+	if (!InSpecHandle.IsValid())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Invalid GameplayEffectSpecHandle"));
+		return FActiveGameplayEffectHandle();
+	}
 
 	return GetWarriorAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectSpecToTarget(
 		*InSpecHandle.Data,

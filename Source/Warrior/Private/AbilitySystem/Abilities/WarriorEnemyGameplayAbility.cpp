@@ -21,6 +21,7 @@ UEnemyCombatComponent* UWarriorEnemyGameplayAbility::GetEnemyCombatComponentFrom
 	return GetEnemyCharacterFromActorInfo()->GetEnemyCombatComponent();
 }
 
+
 FGameplayEffectSpecHandle UWarriorEnemyGameplayAbility::MakeEnemyDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, const FScalableFloat& InDamageScalableFloat)
 {
 	check(EffectClass);
@@ -36,9 +37,10 @@ FGameplayEffectSpecHandle UWarriorEnemyGameplayAbility::MakeEnemyDamageEffectSpe
 		ContextHandle
 	);
 
+	EffectSpecHandle.Data->SetSetByCallerMagnitude(
+		WarriorGameplayTags::Shared_SetByCaller_BaseDamage,
+		InDamageScalableFloat.GetValueAtLevel(GetAbilityLevel())
+	);
 
-	// SetByCaller Magnitude를 사용하여 데미지 값을 설정합니다.
-	EffectSpecHandle.Data->SetSetByCallerMagnitude(WarriorGameplayTags::Shared_SetByCaller_BaseDamage, InDamageScalableFloat.GetValueAtLevel(GetAbilityLevel()));
-
-	return FGameplayEffectSpecHandle();
+	return EffectSpecHandle;
 }
