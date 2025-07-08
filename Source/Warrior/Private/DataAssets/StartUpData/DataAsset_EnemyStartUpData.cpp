@@ -3,11 +3,11 @@
 
 #include "DataAssets/StartUpData/DataAsset_EnemyStartUpData.h"
 #include "AbilitySystem/WarriorAbilitySystemComponent.h"
-#include "AbilitySystem/abilities/WarriorEnemyGameplayAbility.h"
+#include "AbilitySystem/Abilities/WarriorEnemyGameplayAbility.h"
 
-void UDataAsset_EnemyStartUpData::GiveToAbilityStstemComponent(UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
+void UDataAsset_EnemyStartUpData::GiveToAbilitySystemComponent(UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
 {
-	Super::GiveToAbilityStstemComponent(InASCToGive, ApplyLevel);
+	Super::GiveToAbilitySystemComponent(InASCToGive, ApplyLevel);
 
 	if (!EnemyCombatAbilities.IsEmpty())
 	{

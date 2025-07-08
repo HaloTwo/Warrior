@@ -14,20 +14,20 @@
 
 AWarriorEnemyCharacter::AWarriorEnemyCharacter()
 {
-	// AI ÄÁÆ®·Ñ·¯ ÀÚµ¿ ºùÀÇ ¼³Á¤ - ¿ùµå¿¡ ¹èÄ¡µÇ°Å³ª ½ºÆùµÉ ¶§ ÀÚµ¿À¸·Î AI°¡ Á¶Á¾
+	// AI ì»¨íŠ¸ë¡¤ëŸ¬ ìë™ ë¹™ì˜ ì„¤ì • - ì›”ë“œì— ë°°ì¹˜ë˜ê±°ë‚˜ ìŠ¤í°ë  ë•Œ ìë™ìœ¼ë¡œ AIê°€ ì¡°ì¢…
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 
-	// ÄÁÆ®·Ñ·¯(AI)ÀÇ È¸Àü°ªÀ» Ä³¸¯ÅÍ¿¡ Á÷Á¢ Àû¿ëÇÏÁö ¾ÊÀ½ - AI°¡ ¹Ù¶óº¸´Â ¹æÇâ°ú Ä³¸¯ÅÍ ¹æÇâÀ» ºĞ¸®
-	bUseControllerRotationPitch = false;  // »óÇÏ È¸Àü(°í°³ ²ô´öÀÓ) »ç¿ë ¾ÈÇÔ
-	bUseControllerRotationRoll = false;   // ÁÂ¿ì ±â¿ïÀÓ »ç¿ë ¾ÈÇÔ  
-	bUseControllerRotationYaw = false;    // ÁÂ¿ì È¸Àü(°í°³ µ¹¸®±â) »ç¿ë ¾ÈÇÔ
+	// ì»¨íŠ¸ë¡¤ëŸ¬(AI)ì˜ íšŒì „ê°’ì„ ìºë¦­í„°ì— ì§ì ‘ ì ìš©í•˜ì§€ ì•ŠìŒ - AIê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ê³¼ ìºë¦­í„° ë°©í–¥ì„ ë¶„ë¦¬
+	bUseControllerRotationPitch = false;  // ìƒí•˜ íšŒì „(ê³ ê°œ ë„ë•ì„) ì‚¬ìš© ì•ˆí•¨
+	bUseControllerRotationRoll = false;   // ì¢Œìš° ê¸°ìš¸ì„ ì‚¬ìš© ì•ˆí•¨  
+	bUseControllerRotationYaw = false;    // ì¢Œìš° íšŒì „(ê³ ê°œ ëŒë¦¬ê¸°) ì‚¬ìš© ì•ˆí•¨
 
-	// Ä³¸¯ÅÍ ¹«ºê¸ÕÆ® ÄÄÆ÷³ÍÆ® ¼³Á¤
-	GetCharacterMovement()->bUseControllerDesiredRotation = false;  // ÄÁÆ®·Ñ·¯°¡ ¿øÇÏ´Â È¸Àü ¹æÇâ »ç¿ë ¾ÈÇÔ
-	GetCharacterMovement()->bOrientRotationToMovement = true;       // ÀÌµ¿ ¹æÇâÀ¸·Î Ä³¸¯ÅÍ°¡ ÀÚµ¿ È¸Àü (ÀÚ¿¬½º·¯¿î ÀÌµ¿)
-	GetCharacterMovement()->RotationRate = FRotator(0.f, 180.f, 0.f);  // È¸Àü ¼Óµµ ¼³Á¤ (ÃÊ´ç 180µµ·Î ÁÂ¿ì È¸Àü)
-	GetCharacterMovement()->MaxWalkSpeed = 300.f;                   // ÃÖ´ë °È±â ¼Óµµ 300 À¯´Ö/ÃÊ
-	GetCharacterMovement()->BrakingDecelerationWalking = 1000.f;    // °ÉÀ» ¶§ Á¦µ¿·Â 1000 (ºü¸£°Ô ¸ØÃã)
+	// ìºë¦­í„° ë¬´ë¸Œë¨¼íŠ¸ ì»´í¬ë„ŒíŠ¸ ì„¤ì •
+	GetCharacterMovement()->bUseControllerDesiredRotation = false;  // ì»¨íŠ¸ë¡¤ëŸ¬ê°€ ì›í•˜ëŠ” íšŒì „ ë°©í–¥ ì‚¬ìš© ì•ˆí•¨
+	GetCharacterMovement()->bOrientRotationToMovement = true;       // ì´ë™ ë°©í–¥ìœ¼ë¡œ ìºë¦­í„°ê°€ ìë™ íšŒì „ (ìì—°ìŠ¤ëŸ¬ìš´ ì´ë™)
+	GetCharacterMovement()->RotationRate = FRotator(0.f, 180.f, 0.f);  // íšŒì „ ì†ë„ ì„¤ì • (ì´ˆë‹¹ 180ë„ë¡œ ì¢Œìš° íšŒì „)
+	GetCharacterMovement()->MaxWalkSpeed = 300.f;                   // ìµœëŒ€ ê±·ê¸° ì†ë„ 300 ìœ ë‹›/ì´ˆ
+	GetCharacterMovement()->BrakingDecelerationWalking = 1000.f;    // ê±¸ì„ ë•Œ ì œë™ë ¥ 1000 (ë¹ ë¥´ê²Œ ë©ˆì¶¤)
 
 	EnemyCombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>(TEXT("EnemyCombatComponent"));
 
@@ -83,7 +83,7 @@ void AWarriorEnemyCharacter::InitEnemyStartUpData()
 			{
 				if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.Get())
 				{
-					LoadedData->GiveToAbilityStstemComponent(WarriorAbilitySystemComponent);		
+					LoadedData->GiveToAbilitySystemComponent(WarriorAbilitySystemComponent);		
 				}
 			}
 		)

@@ -13,9 +13,9 @@ class WARRIOR_API UPawnExtensionComponentBase : public UActorComponent
 	GENERATED_BODY()
 
 protected:
-	// Æ¯Á¤ Pawn Å¸ÀÔÀ¸·Î ¼ÒÀ¯ PawnÀ» °¡Á®¿À´Â ÅÛÇÃ¸´ ÇÔ¼ö
-	// T°¡ APawn¿¡¼­ ÆÄ»ýµÈ Å¬·¡½ºÀÎÁö ÄÄÆÄÀÏ ½Ã°£¿¡ È®ÀÎÇÔ
-	// GetOwner()·Î ¾òÀº ¾×ÅÍ¸¦ ÁöÁ¤µÈ Pawn Å¸ÀÔÀ¸·Î Ä³½ºÆÃÇÏ¿© ¹ÝÈ¯
+	T* GetOwningController() const
+	// Tê°€ APawnì—ì„œ íŒŒìƒëœ í´ëž˜ìŠ¤ì¸ì§€ ì»´íŒŒì¼ ì‹œê°„ì— í™•ì¸í•¨
+	// GetOwner()ë¡œ ì–»ì€ ì•¡í„°ë¥¼ ì§€ì •ëœ Pawn íƒ€ìž…ìœ¼ë¡œ ìºìŠ¤íŒ…í•˜ì—¬ ë°˜í™˜
 	template<class T>
 	T* GetOwningPawn() const
 	{
@@ -23,16 +23,16 @@ protected:
 		return CastChecked<T>(GetOwner());
 	}
 
-	// ±âº» APawn Å¸ÀÔÀ¸·Î ¼ÒÀ¯ PawnÀ» °¡Á®¿À´Â ºñÅÛÇÃ¸´ ¹öÀü
-	// ÅÛÇÃ¸´ ¹öÀüÀ» APawn Å¸ÀÔÀ¸·Î È£ÃâÇÏ¿© °£ÆíÇÏ°Ô »ç¿ëÇÒ ¼ö ÀÖ°Ô ÇÔ
+	// ê¸°ë³¸ APawn íƒ€ìž…ìœ¼ë¡œ ì†Œìœ  Pawnì„ ê°€ì ¸ì˜¤ëŠ” ë¹„í…œí”Œë¦¿ ë²„ì „
+	// í…œí”Œë¦¿ ë²„ì „ì„ APawn íƒ€ìž…ìœ¼ë¡œ í˜¸ì¶œí•˜ì—¬ ê°„íŽ¸í•˜ê²Œ ì‚¬ìš©í•  ìˆ˜ ìžˆê²Œ í•¨
 	APawn* GetOwningPawn() const
 	{
 		return GetOwningPawn<APawn>();
 	}
 
-	// ¼ÒÀ¯ PawnÀÇ ÄÁÆ®·Ñ·¯¸¦ Æ¯Á¤ Controller Å¸ÀÔÀ¸·Î °¡Á®¿À´Â ÅÛÇÃ¸´ ÇÔ¼ö
-	// T°¡ AController¿¡¼­ ÆÄ»ýµÈ Å¬·¡½ºÀÎÁö ÄÄÆÄÀÏ ½Ã°£¿¡ È®ÀÎÇÔ
-	// ¸ÕÀú PawnÀ» ¾òÀº ´ÙÀ½ ÇØ´ç PawnÀÇ ÄÁÆ®·Ñ·¯¸¦ ÁöÁ¤µÈ Å¸ÀÔÀ¸·Î °¡Á®¿È
+	// ì†Œìœ  Pawnì˜ ì»¨íŠ¸ë¡¤ëŸ¬ë¥¼ íŠ¹ì • Controller íƒ€ìž…ìœ¼ë¡œ ê°€ì ¸ì˜¤ëŠ” í…œí”Œë¦¿ í•¨ìˆ˜
+	// Tê°€ AControllerì—ì„œ íŒŒìƒëœ í´ëž˜ìŠ¤ì¸ì§€ ì»´íŒŒì¼ ì‹œê°„ì— í™•ì¸í•¨
+	// ë¨¼ì € Pawnì„ ì–»ì€ ë‹¤ìŒ í•´ë‹¹ Pawnì˜ ì»¨íŠ¸ë¡¤ëŸ¬ë¥¼ ì§€ì •ëœ íƒ€ìž…ìœ¼ë¡œ ê°€ì ¸ì˜´
 	template<class T>
 	T* GetowningController() const
 	{
