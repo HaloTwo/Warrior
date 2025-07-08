@@ -23,10 +23,10 @@ public:
 	void GrantHeroWeaponAbilities(const TArray<FWarriorHeroAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles);
 
 	UFUNCTION(BlueprintCallable, Category = "Warrior|Ability")
-    // InSpecHandlesToRemove¿¡ Æ÷ÇÔµÈ ´É·Â ¼¼Æ®¿¡ ÇØ´çÇÏ´Â ´É·ÂÀ» Á¦°ÅÇÕ´Ï´Ù.
+    void RemoveGrantedHeroWeaponAbilities(UPARAM(ref) TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove);
     void RemoveGrantederoWeaponAbilities(UPARAM(ref) TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove);
 
-	// ´É·ÂÀ» È°¼ºÈ­ÇÏ·Á°í ½ÃµµÇÕ´Ï´Ù. ¼º°øÇÏ¸é true¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+	// ëŠ¥ë ¥ì„ í™œì„±í™”í•˜ë ¤ê³  ì‹œë„í•©ë‹ˆë‹¤. ì„±ê³µí•˜ë©´ trueë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 	UFUNCTION(BlueprintCallable, Category = "Warrior|Ability")
 	bool TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate);
 };

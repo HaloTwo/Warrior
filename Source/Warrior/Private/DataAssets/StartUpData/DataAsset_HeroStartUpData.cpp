@@ -2,13 +2,13 @@
 
 
 #include "DataAssets/StartUpData/DataAsset_HeroStartUpData.h"
-#include "AbilitySystem//Abilities//WarriorGameplayAbility.h"
+#include "AbilitySystem/Abilities/WarriorGameplayAbility.h"
 #include "AbilitySystem/WarriorAbilitySystemComponent.h"
 
 
-void UDataAsset_HeroStartUpData::GiveToAbilityStstemComponent(UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
+void UDataAsset_HeroStartUpData::GiveToAbilitySystemComponent(UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
 {
-	Super::GiveToAbilityStstemComponent(InASCToGive, ApplyLevel);
+	Super::GiveToAbilitySystemComponent(InASCToGive, ApplyLevel);
 
 	for (const FWarriorHeroAbilitySet& AbilitySet : HeroStartUpAbilitySets)
 	{

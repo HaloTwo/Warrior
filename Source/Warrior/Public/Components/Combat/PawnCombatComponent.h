@@ -39,7 +39,7 @@ public:
 	AWarriorWeaponBase* GetCharacterCurrentEquippedWeapon() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Warrior|Combat")
-	void ToggleWeaponCollsion(bool bShouldEnable, EToggleDamageType ToggleDamageType = EToggleDamageType::CurrentEquippedWeapon);
+	void ToggleWeaponCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType = EToggleDamageType::CurrentEquippedWeapon);
 
 	virtual void OnHitTargetActor(AActor* HitActor);
 	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor);
