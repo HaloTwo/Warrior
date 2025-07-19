@@ -34,7 +34,7 @@ void UWarriorGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle
 
 UPawnCombatComponent* UWarriorGameplayAbility::GetPawnCombatComponent() const
 {
-	return GetAvatarActorFromActorInfo()->FindComponentByClass<UPawnCombatComponent>()
+	return GetAvatarActorFromActorInfo()->FindComponentByClass<UPawnCombatComponent>();;
 }
 
 
@@ -48,7 +48,7 @@ FActiveGameplayEffectHandle UWarriorGameplayAbility::NativeApplyEffectSpecHandle
 {
 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 
-	// check() Â´Ã«Â½Ã… Â¾ÃˆÃ€Ã¼Ã‡Ã‘ Â°Ã‹Â»Ã§
+	// check() ´ë½Å ¾ÈÀüÇÑ °Ë»ç
 	if (!TargetASC)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Target has no AbilitySystemComponent: %s"),

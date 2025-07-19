@@ -16,7 +16,7 @@ class WARRIOR_API UDataAsset_HeroStartUpData : public UDataAsset_StartUpDataBase
 	GENERATED_BODY()
 	
 public:
-	virtual void GiveToAbilitySystemComponent(UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel = 1) override;
+	virtual void GiveToAbilityStstemComponent(UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel = 1) override;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "StartUpData", meta = (TitleProperty = "InputTag"))

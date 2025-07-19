@@ -19,7 +19,7 @@ class WARRIOR_API UDataAsset_StartUpDataBase : public UDataAsset
 	
 
 public:
-	virtual void GiveToAbilitySystemComponent(UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel = 1);
+	virtual void GiveToAbilityStstemComponent(UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel = 1);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "StartUpData")

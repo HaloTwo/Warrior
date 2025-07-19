@@ -65,24 +65,24 @@ void AWarriorHeroCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-		LoadedData->GiveToAbilitySystemComponent(WarriorAbilitySystemComponent);
+	// Ä³¸¯ÅÍ ½ºÅ¸Æ®¾÷ µ¥ÀÌÅÍ°¡ ¼³Á¤µÇ¾î ÀÖ´ÂÁö È®ÀÎ
 	if (CharacterStartUpData.IsNull())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("CharacterStartUpData is null. Please check if it is set."));
 		return;
 	}
 
-	// ë°ì´í„° ì—ì…‹ì„ ë™ê¸°ì ìœ¼ë¡œ ë¡œë“œ
+	// µ¥ÀÌÅÍ ¿¡¼ÂÀ» µ¿±âÀûÀ¸·Î ·Îµå
 	if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
 	{
 		UE_LOG(LogTemp, Log, TEXT("Successfully loaded CharacterStartUpData: %s"), *LoadedData->GetName());
 
-		// AbilitySystemComponentì— ìŠ¤íƒ€íŠ¸ ëŠ¥ë ¥ ë¶€ì—¬
+		// AbilitySystemComponent¿¡ ½ºÅ¸Æ® ´É·Â ºÎ¿©
 		LoadedData->GiveToAbilityStstemComponent(WarriorAbilitySystemComponent);
 	}
 	else
 	{
-		// ì—ì…‹ ë¡œë”© ì‹¤íŒ¨
+		// ¿¡¼Â ·Îµù ½ÇÆĞ
 		UE_LOG(LogTemp, Error, TEXT("Failed to load CharacterStartUpData asset."));
 	}
 }
@@ -138,13 +138,13 @@ void AWarriorHeroCharacter::Input_Look(const FInputActionValue& InputActionValue
 {
 	const FVector2D LookAxisVector = InputActionValue.Get<FVector2D>();
 
-	// Xì¶•: ì¢Œìš° íšŒì „ (Yaw)
+	// XÃà: ÁÂ¿ì È¸Àü (Yaw)
 	if (LookAxisVector.X != 0.f)
 	{
 		AddControllerYawInput(LookAxisVector.X);
 	}
 
-	// Yì¶•: ìƒí•˜ íšŒì „ (Pitch)
+	// YÃà: »óÇÏ È¸Àü (Pitch)
 	if (LookAxisVector.Y != 0.f)
 	{
 		AddControllerPitchInput(LookAxisVector.Y);

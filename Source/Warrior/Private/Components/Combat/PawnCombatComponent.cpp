@@ -4,36 +4,36 @@
 
 #include "WarriorDebugHelper.h"
 
-/// ìƒì„±ëœ ë¬´ê¸°ë¥¼ íƒœê·¸ì™€ í•¨ê»˜ ë“±ë¡í•˜ê³  ì„ íƒì ìœ¼ë¡œ ì¥ì°© ìƒíƒœë¡œ ì„¤ì •
+/// »ı¼ºµÈ ¹«±â¸¦ ÅÂ±×¿Í ÇÔ²² µî·ÏÇÏ°í ¼±ÅÃÀûÀ¸·Î ÀåÂø »óÅÂ·Î ¼³Á¤
 void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AWarriorWeaponBase* InWeaponToRegister, bool bResgiterAsEquippedWeapon)
 {
-	// ì¤‘ë³µ ë“±ë¡ ë°©ì§€ - ê°™ì€ íƒœê·¸ì˜ ë¬´ê¸°ê°€ ì´ë¯¸ ìˆìœ¼ë©´ ì—ëŸ¬
+	// Áßº¹ µî·Ï ¹æÁö - °°Àº ÅÂ±×ÀÇ ¹«±â°¡ ÀÌ¹Ì ÀÖÀ¸¸é ¿¡·¯
 	checkf(!CharacterCarriedWeaponMap.Contains(InWeaponTagToRegister), TEXT("A named named %s has already been added as carried weapon"), *InWeaponTagToRegister.ToString());
 
-	// ë¬´ê¸° ê°ì²´ ìœ íš¨ì„± ê²€ì‚¬
+	// ¹«±â °´Ã¼ À¯È¿¼º °Ë»ç
 	check(InWeaponToRegister);
 
-	// ë¬´ê¸°ë¥¼ ë§µì— ì¶”ê°€
+	// ¹«±â¸¦ ¸Ê¿¡ Ãß°¡
 	CharacterCarriedWeaponMap.Emplace(InWeaponTagToRegister, InWeaponToRegister);
 
 	InWeaponToRegister->OnWeaponHitTarget.BindUObject(this, &ThisClass::OnHitTargetActor);
 	InWeaponToRegister->OnWeaponPulledFromTarget.BindUObject(this, &ThisClass::OnWeaponPulledFromTargetActor);
 
-	// ì¥ì°© ì˜µì…˜ì´ trueë©´ í˜„ì¬ ì¥ì°© ë¬´ê¸°ë¡œ ì„¤ì •
+	// ÀåÂø ¿É¼ÇÀÌ true¸é ÇöÀç ÀåÂø ¹«±â·Î ¼³Á¤
 	if (bResgiterAsEquippedWeapon) CurrentEquippedWeaponTag = InWeaponTagToRegister;
 
-	// ë””ë²„ê·¸ìš© ë“±ë¡ ì™„ë£Œ ë©”ì‹œì§€ ì¶œë ¥
+	// µğ¹ö±×¿ë µî·Ï ¿Ï·á ¸Ş½ÃÁö Ãâ·Â
 	const FString WeaponString = FString::Printf(TEXT("A Weapon named: %s has been registered using the tag %s"), *InWeaponToRegister->GetName(), *InWeaponTagToRegister.ToString());
 	Debug::Print(WeaponString);
 }
 
-// íƒœê·¸ë¥¼ ì‚¬ìš©í•´ ë³´ìœ  ì¤‘ì¸ ë¬´ê¸° ê°ì²´ë¥¼ ê²€ìƒ‰í•˜ì—¬ ë°˜í™˜
+// ÅÂ±×¸¦ »ç¿ëÇØ º¸À¯ ÁßÀÎ ¹«±â °´Ã¼¸¦ °Ë»öÇÏ¿© ¹İÈ¯
 AWarriorWeaponBase* UPawnCombatComponent::GetCharacterCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) const
 {
-void UPawnCombatComponent::ToggleWeaponCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType)
+	// ¸Ê¿¡ ÇØ´ç ÅÂ±×°¡ Á¸ÀçÇÏ´ÂÁö È®ÀÎ
 	if (CharacterCarriedWeaponMap.Contains(InWeaponTagToGet))
 	{
-		// íƒœê·¸ë¡œ ë¬´ê¸° í¬ì¸í„°ë¥¼ ì•ˆì „í•˜ê²Œ ê²€ìƒ‰ í›„ ìˆìœ¼ë©´ ë¬´ê¸° ê°ì²´ ë°˜í™˜
+		// ÅÂ±×·Î ¹«±â Æ÷ÀÎÅÍ¸¦ ¾ÈÀüÇÏ°Ô °Ë»ö ÈÄ ÀÖÀ¸¸é ¹«±â °´Ã¼ ¹İÈ¯
 		if (AWarriorWeaponBase* const* FoundWeapon = CharacterCarriedWeaponMap.Find(InWeaponTagToGet))
 		{
 			return *FoundWeapon;
@@ -43,13 +43,13 @@ void UPawnCombatComponent::ToggleWeaponCollision(bool bShouldEnable, EToggleDama
 	return nullptr;
 }
 
-// í˜„ì¬ ì¥ì°©ëœ ë¬´ê¸° ê°ì²´ë¥¼ ë°˜í™˜
+// ÇöÀç ÀåÂøµÈ ¹«±â °´Ã¼¸¦ ¹İÈ¯
 AWarriorWeaponBase* UPawnCombatComponent::GetCharacterCurrentEquippedWeapon() const
 {
-	// í˜„ì¬ ì¥ì°©ëœ ë¬´ê¸° íƒœê·¸ê°€ ìœ íš¨í•˜ì§€ ì•Šìœ¼ë©´ nullptr ë°˜í™˜
+	// ÇöÀç ÀåÂøµÈ ¹«±â ÅÂ±×°¡ À¯È¿ÇÏÁö ¾ÊÀ¸¸é nullptr ¹İÈ¯
 	if (!CurrentEquippedWeaponTag.IsValid()) return nullptr;
 
-	// ì¥ì°© íƒœê·¸ë¡œ ì‹¤ì œ ë¬´ê¸° ê°ì²´ ê²€ìƒ‰ í›„ ë°˜í™˜
+	// ÀåÂø ÅÂ±×·Î ½ÇÁ¦ ¹«±â °´Ã¼ °Ë»ö ÈÄ ¹İÈ¯
 	return GetCharacterCarriedWeaponByTag(CurrentEquippedWeaponTag);
 }
 
@@ -69,7 +69,7 @@ void UPawnCombatComponent::ToggleWeaponCollsion(bool bShouldEnable, EToggleDamag
 		else 
 		{
 			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			OverlappedActors.Empty(); // ì¶©ëŒ ë¹„í™œì„±í™” ì‹œ ì˜¤ë²„ë©ëœ ì•¡í„° ëª©ë¡ ì´ˆê¸°í™”
+			OverlappedActors.Empty(); // Ãæµ¹ ºñÈ°¼ºÈ­ ½Ã ¿À¹ö·¦µÈ ¾×ÅÍ ¸ñ·Ï ÃÊ±âÈ­
 		}	
 	}
 

@@ -5,30 +5,30 @@
 #include "AbilitySystem/WarriorAbilitySystemComponent.h"
 #include "AbilitySystem/Abilities/WarriorGameplayAbility.h"
 
-void UDataAsset_StartUpDataBase::GiveToAbilitySystemComponent(UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
+void UDataAsset_StartUpDataBase::GiveToAbilityStstemComponent(UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
 {
-	// AbilitySystemComponentê°€ ìœ íš¨í•œì§€ í™•ì¸
+	// AbilitySystemComponent°¡ À¯È¿ÇÑÁö È®ÀÎ
 	check(InASCToGive);
 
-	// ì‹œì‘ ì‹œ ì¦‰ì‹œ ë°œë™ë˜ëŠ” ëŠ¥ë ¥ ë¶€ì—¬
+	// ½ÃÀÛ ½Ã Áï½Ã ¹ßµ¿µÇ´Â ´É·Â ºÎ¿©
 	GrantAbilities(ActivateOnGivenAbilities, InASCToGive, ApplyLevel);
 
-	// ë°˜ì‘í˜• ëŠ¥ë ¥ (ex. í”¼í•´ ì…ì—ˆì„ ë•Œ ìë™ ë°œë™ ë“±) ë¶€ì—¬
+	// ¹İÀÀÇü ´É·Â (ex. ÇÇÇØ ÀÔ¾úÀ» ¶§ ÀÚµ¿ ¹ßµ¿ µî) ºÎ¿©
 	GrantAbilities(ReactiveAbilities, InASCToGive, ApplyLevel);
 
-	// ì‹œì‘ ì‹œ ì ìš©í•  ê²Œì„í”Œë ˆì´ ì´í™íŠ¸ë“¤ (ë²„í”„/ì´ˆê¸° ìŠ¤íƒ¯ ì„¤ì • ë“±) ì²˜ë¦¬
+	// ½ÃÀÛ ½Ã Àû¿ëÇÒ °ÔÀÓÇÃ·¹ÀÌ ÀÌÆåÆ®µé (¹öÇÁ/ÃÊ±â ½ºÅÈ ¼³Á¤ µî) Ã³¸®
 	if (!StartUpGameplayEffects.IsEmpty())
 	{
-		// ê° ì´í™íŠ¸ë¥¼ ìˆœíšŒí•˜ë©° ì ìš©
+		// °¢ ÀÌÆåÆ®¸¦ ¼øÈ¸ÇÏ¸ç Àû¿ë
 		for (const TSubclassOf<UGameplayEffect>& EffectClass : StartUpGameplayEffects)
 		{
-			// ìœ íš¨í•˜ì§€ ì•Šì€ ì´í™íŠ¸ í´ë˜ìŠ¤ëŠ” ìŠ¤í‚µ
+			// À¯È¿ÇÏÁö ¾ÊÀº ÀÌÆåÆ® Å¬·¡½º´Â ½ºÅµ
 			if (!EffectClass) continue;
 
-			// ì´í™íŠ¸ì˜ ê¸°ë³¸ ê°ì²´ ê°€ì ¸ì˜¤ê¸°
+			// ÀÌÆåÆ®ÀÇ ±âº» °´Ã¼ °¡Á®¿À±â
 			UGameplayEffect* EffectCD0 = EffectClass->GetDefaultObject<UGameplayEffect>();
 
-			// ASCì— ì´í™íŠ¸ ì ìš© (ë ˆë²¨ê³¼ ì»¨í…ìŠ¤íŠ¸ í¬í•¨)
+			// ASC¿¡ ÀÌÆåÆ® Àû¿ë (·¹º§°ú ÄÁÅØ½ºÆ® Æ÷ÇÔ)
 			InASCToGive->ApplyGameplayEffectToSelf(
 				EffectCD0,
 				ApplyLevel,
@@ -42,29 +42,29 @@ void UDataAsset_StartUpDataBase::GiveToAbilitySystemComponent(UWarriorAbilitySys
 
 void UDataAsset_StartUpDataBase::GrantAbilities(const TArray<TSubclassOf<UWarriorGameplayAbility>>& InAbilitiesToGive, UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
 {
-	// ë¶€ì—¬í•  ëŠ¥ë ¥ ë¦¬ìŠ¤íŠ¸ê°€ ë¹„ì–´ìˆëŠ” ê²½ìš°
+	// ºÎ¿©ÇÒ ´É·Â ¸®½ºÆ®°¡ ºñ¾îÀÖ´Â °æ¿ì
 	if (InAbilitiesToGive.IsEmpty())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("No abilities to grant."));
 		return;
 	}
 
-	// ê° ëŠ¥ë ¥ì— ëŒ€í•´ ì²˜ë¦¬
+	// °¢ ´É·Â¿¡ ´ëÇØ Ã³¸®
 	for (const TSubclassOf<UWarriorGameplayAbility>& Ability : InAbilitiesToGive)
 	{
-		// ëŠ¥ë ¥ í´ë˜ìŠ¤ê°€ ìœ íš¨í•˜ì§€ ì•Šìœ¼ë©´ ê±´ë„ˆëœ€
+		// ´É·Â Å¬·¡½º°¡ À¯È¿ÇÏÁö ¾ÊÀ¸¸é °Ç³Ê¶Ü
 		if (!Ability)
 		{
 			UE_LOG(LogTemp, Error, TEXT("Found null ability class. Skipping."));
 			continue;
 		}
 
-		// ëŠ¥ë ¥ ìŠ¤í™ ìƒì„± (ë ˆë²¨ ë° ì†ŒìŠ¤ ì„¤ì •)
+		// ´É·Â ½ºÆå »ı¼º (·¹º§ ¹× ¼Ò½º ¼³Á¤)
 		FGameplayAbilitySpec AbilitySpec(Ability);
 		AbilitySpec.SourceObject = InASCToGive->GetAvatarActor();
 		AbilitySpec.Level = ApplyLevel;
 
-		// ëŠ¥ë ¥ ë¶€ì—¬
+		// ´É·Â ºÎ¿©
 		InASCToGive->GiveAbility(AbilitySpec);
 		UE_LOG(LogTemp, Log, TEXT("Granted ability: %s"), *Ability->GetName());
 	}

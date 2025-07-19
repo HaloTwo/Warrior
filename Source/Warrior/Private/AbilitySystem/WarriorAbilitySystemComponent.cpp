@@ -6,11 +6,11 @@
 
 void UWarriorAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
 {
-	if (!InInputTag.IsValid()) return; // ì¸í’‹ íƒœê·¸ê°€ ìœ íš¨í•˜ì§€ ì•Šìœ¼ë©´ ì•„ë¬´ ì‘ì—…ë„ ìˆ˜í–‰í•˜ì§€ ì•ŠìŒ
+	if (!InInputTag.IsValid()) return; // ÀÎÇ² ÅÂ±×°¡ À¯È¿ÇÏÁö ¾ÊÀ¸¸é ¾Æ¹« ÀÛ¾÷µµ ¼öÇàÇÏÁö ¾ÊÀ½
 
-	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities()) // ëª¨ë“  í™œì„±í™” ê°€ëŠ¥í•œ ëŠ¥ë ¥ì— ëŒ€í•´ ë°˜ë³µ
+	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities()) // ¸ğµç È°¼ºÈ­ °¡´ÉÇÑ ´É·Â¿¡ ´ëÇØ ¹İº¹
 	{
-		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag)) // í˜„ì¬ ëŠ¥ë ¥ì˜ ë™ì  ëŠ¥ë ¥ íƒœê·¸ê°€ ì…ë ¥ íƒœê·¸ì™€ ì •í™•íˆ ì¼ì¹˜í•˜ëŠ”ì§€ í™•ì¸
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag)) // ÇöÀç ´É·ÂÀÇ µ¿Àû ´É·Â ÅÂ±×°¡ ÀÔ·Â ÅÂ±×¿Í Á¤È®È÷ ÀÏÄ¡ÇÏ´ÂÁö È®ÀÎ
 		{
 			TryActivateAbility(AbilitySpec.Handle);
 		}
@@ -39,7 +39,7 @@ void UWarriorAbilitySystemComponent::GrantHeroWeaponAbilities(const TArray<FWarr
 	}
 }
 
-void UWarriorAbilitySystemComponent::RemoveGrantedHeroWeaponAbilities(UPARAM(ref)TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove)
+void UWarriorAbilitySystemComponent::RemoveGrantederoWeaponAbilities(UPARAM(ref)TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove)
 {
 	if (InSpecHandlesToRemove.IsEmpty())
 	{
@@ -65,16 +65,16 @@ bool UWarriorAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag Abilit
 	TArray<FGameplayAbilitySpec*> FoundAbilitySpecs;
 	GetActivatableGameplayAbilitySpecsByAllMatchingTags(AbilityTagToActivate.GetSingleTagContainer(), FoundAbilitySpecs);
 
-	// FoundAbilitySpecsëŠ” AbilityTagToActivateì™€ ì¼ì¹˜í•˜ëŠ” ëª¨ë“  ëŠ¥ë ¥ ì‚¬ì–‘ì„ í¬í•¨í•©ë‹ˆë‹¤.
+	// FoundAbilitySpecs´Â AbilityTagToActivate¿Í ÀÏÄ¡ÇÏ´Â ¸ğµç ´É·Â »ç¾çÀ» Æ÷ÇÔÇÕ´Ï´Ù.
 	if (!FoundAbilitySpecs.IsEmpty())
 	{
-		// ë¬´ì‘ìœ„ë¡œ ëŠ¥ë ¥ ì‚¬ì–‘ì„ ì„ íƒí•˜ì—¬ í™œì„±í™” ì‹œë„
+		// ¹«ÀÛÀ§·Î ´É·Â »ç¾çÀ» ¼±ÅÃÇÏ¿© È°¼ºÈ­ ½Ãµµ
 		const int32 RandomAbilityIndex = FMath::RandRange(0, FoundAbilitySpecs.Num() - 1);
 		FGameplayAbilitySpec* SpecToActivate = FoundAbilitySpecs[RandomAbilityIndex];
 
 		check(SpecToActivate);
 
-		// ì„ íƒëœ ëŠ¥ë ¥ ì‚¬ì–‘ì´ í™œì„±í™”ë˜ì§€ ì•Šì€ ê²½ìš° í™œì„±í™” ì‹œë„
+		// ¼±ÅÃµÈ ´É·Â »ç¾çÀÌ È°¼ºÈ­µÇÁö ¾ÊÀº °æ¿ì È°¼ºÈ­ ½Ãµµ
 		if (!SpecToActivate->IsActive())
 		{
 			return TryActivateAbility(SpecToActivate->Handle);
